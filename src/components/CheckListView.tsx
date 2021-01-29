@@ -9,7 +9,6 @@ export default function ChecklistView({ checklistId }) {
   return (
     <>
       <span>{checklist?.name}</span>
-      <span>{checklist?.items.length}</span>
       {checklist?.items.map((item, id) => (<CheckListItem checklistItem={item} key={id} />))}
     </>
   );
