@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import State, { AppCtx } from './../model';
+import State from './../model';
+import AppCtx from './../model/context';
 import CheckListItem from './CheckListItem';
 
 export default function ChecklistView({ checklistId }) {

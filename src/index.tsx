@@ -1,7 +1,7 @@
-import React, { createContext } from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import State, { loadState } from './model';
+import { loadState } from './model';
 import reportWebVitals from './reportWebVitals';
 import AppCtx from './model/context';
 

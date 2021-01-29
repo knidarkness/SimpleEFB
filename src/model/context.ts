@@ -1,10 +1,10 @@
-import React, { createContext } from 'react';
-import State from './index';
+import { createContext } from 'react';
+import State, { loadState } from './index';
 
 export let AppCtx;
 
 if (!AppCtx) {
-  AppCtx = createContext<State>();
+  AppCtx = createContext<State>(loadState());
 }
 
 export default AppCtx;

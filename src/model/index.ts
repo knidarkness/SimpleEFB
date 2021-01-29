@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import checklists from './checklists.json';
 import { Checklist } from "./types";
-export * from './context';
+// export * from './context';
 
 export default class State {
   secondsPassed = 0;
