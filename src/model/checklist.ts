@@ -17,7 +17,6 @@ export class Checklist {
   }
 
   itemUpdated() {
-    console.log(this.items.length);
     if (this.items.filter(i => i.completed === true).length === this.items.length) {
       this.completed = true;
     }
