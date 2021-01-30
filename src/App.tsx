@@ -4,14 +4,14 @@ import ChecklistOverview from './pages/ChecklistOverview';
 import State from './model';
 import Home from './pages/Home';
 import AppCtx from './model/context';
-import { observer } from 'mobx-react-lite';
+// import { observer } from 'mobx-react-lite';
 
-const TimerView = observer(() => {
-  const state: State = useContext(AppCtx);
-  return (
-    <span>{state.secondsPassed}</span>
-  );
-});
+// const TimerView = observer(() => {
+//   const state: State = useContext(AppCtx);
+//   return (
+//     <span>{state.secondsPassed}</span>
+//   );
+// });
 
 export default function App() {
   const state: State = useContext(AppCtx);
@@ -28,8 +28,6 @@ export default function App() {
               <Link to="/checklist">Checklists</Link>
             </li>
           </ul>
-          <TimerView />
-          <button onClick={(e) => { state.increaseTimer(); }}>+</button>
         </nav>
         <Switch>
           <Route path="/home">

@@ -1,12 +1,15 @@
-export interface Checklist {
+export interface IChecklist {
   name: string;
   id: string;
-  items: ChecklistItem[];
+  items: IChecklistItem[];
+
+  completed?: boolean;
 }
 
-export interface ChecklistItem {
+export interface IChecklistItem {
   actionName: string;
   actionTodo?: string;
+  completed?: boolean;
   actor: PilotRole,
 }
 

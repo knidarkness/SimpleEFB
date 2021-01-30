@@ -1,6 +1,82 @@
 {
   "checklists": [
     {
+      "name": "Engine start",
+      "id": "engine-start",
+      "items": [
+        {
+          "actionName": "ENG MODE SEL",
+          "actionTodo": "IGN/START",
+          "actor": 1
+        },
+        {
+          "actionName": "ANNOUNCE",
+          "actionTodo": "STARTING ENGINE 2",
+          "actor": 1
+        },
+        {
+          "actionName": "MASTER SW 2",
+          "actionTodo": "ON",
+          "actor": 1
+        },
+        {
+          "actionName": "START VALVE",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "N2",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "IGNITOR",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "FUEL FLOW",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "EGT",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "N1",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "OIL PRESS",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "START VALVE CLOSE",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "ENG IDLE PARAMETERS",
+          "actionTodo": "CHECK",
+          "actor": 1
+        },
+        {
+          "actionName": "ANNOUNCE",
+          "actionTodo": "STARTING ENGINE 1",
+          "actor": 1
+        },
+        {
+          "actionName": "REPEAT THE START SEQUENCE",
+          "actionTodo": "",
+          "actor": 1
+        }
+      ]
+    },
+    {
       "name": "Before start",
       "id": "before-start",
       "items": [

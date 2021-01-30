@@ -1,10 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useContext } from 'react';
+// import styled from 'styled-components';
+import State from '../model';
+import AppCtx from '../model/context';
+import { Link }  from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
-export default function NavBar() {
+export const NavBar = observer(() => {
+  const ctx: State = useContext(AppCtx);
+
   return <menu>
-    <h3>Checklists</h3>
-    <h3>Landing distance calculator</h3>
-    <h3>Crosswind calculator</h3>
+    {ctx.checklists.map(i => (
+      <Link to={`/checklist/${i.id}`} key={i.id}><h3>{i.name} {i.completed ? 'C' : 'N'}</h3></Link>
+    ))}
   </menu>
-};
+});
+
+export default NavBar;

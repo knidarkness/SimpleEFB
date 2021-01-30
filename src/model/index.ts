@@ -1,18 +1,16 @@
 import { makeAutoObservable } from "mobx";
+import { Checklist } from "./checklist";
 import checklists from './checklists.json';
-import { Checklist } from "./types";
+import { IChecklist } from "./types";
 // export * from './context';
 
 export default class State {
-  secondsPassed = 0;
-
-  constructor(public checklists: Checklist[]) {
+  checklists: Checklist[];
+  constructor(checklists: IChecklist[]) {
+    this.checklists = checklists.map(s => new Checklist(s));
     makeAutoObservable(this);
   }
 
-  increaseTimer() {
-    this.secondsPassed += 1;
-  }
 
   getChecklistById(id): Checklist | undefined {
     return this.checklists.find((item) => item.id === id);

@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { BrowserRouter as Router, Link, Switch, Route, useRouteMatch } from 'react-router-dom';
+// import styled from 'styled-components';
+import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import NavBar from '../components/NavBar';
 import Checklist from './Checklist';
