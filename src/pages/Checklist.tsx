@@ -12,7 +12,7 @@ const Container = styled.div`
   display: flex;
 `;
 
-export default function Checklist() {
+export default function Checklist(): JSX.Element {
   const { checklistId } = useParams();
   const ctx: State = useContext(AppCtx);
   const checklist = ctx.getChecklistById(checklistId);
@@ -22,14 +22,22 @@ export default function Checklist() {
       <h2>{checklist?.name}</h2>
       <Container>
         <div>
-          {checklist?.items.filter(i => i.actor === PilotRole.PILOT_FLYING).map((item, id) => (<CheckListItem checklistItem={item} key={id} />))}
+          {checklist?.items
+            .filter((i) => i.actor === PilotRole.PILOT_FLYING)
+            .map((item, id) => (
+              <CheckListItem checklistItem={item} key={id} />
+            ))}
         </div>
         <div>
-          {checklist?.items.filter(i => i.actor === PilotRole.PILOT_MONITORING).map((item, id) => (<CheckListItem checklistItem={item} key={id} />))}
+          {checklist?.items
+            .filter((i) => i.actor === PilotRole.PILOT_MONITORING)
+            .map((item, id) => (
+              <CheckListItem checklistItem={item} key={id} />
+            ))}
         </div>
       </Container>
       <button onClick={() => checklist?.setCompleted(true)}>Complete</button>
       <button onClick={() => checklist?.setCompleted(false)}>Reset</button>
     </>
   );
-};
+}

@@ -1,5 +1,5 @@
-import { makeAutoObservable } from "mobx";
-import { IChecklistItem, IChecklist, PilotRole } from "./types";
+import { makeAutoObservable } from 'mobx';
+import { IChecklistItem, IChecklist, PilotRole } from './types';
 
 export class Checklist {
   id: string;
@@ -10,24 +10,32 @@ export class Checklist {
   constructor({ id, name, items }: IChecklist) {
     this.id = id;
     this.name = name;
-    this.items = items.map(i => new ChecklistItem(i, () => this.itemUpdated()));
+    this.items = items.map(
+      (i) => new ChecklistItem(i, () => this.itemUpdated())
+    );
     this.completed = false;
 
     makeAutoObservable(this);
   }
 
-  itemUpdated() {
-    if (this.items.filter(i => i.completed === true).length === this.items.length) {
+  itemUpdated(): void {
+    if (
+      this.items.filter((i) => i.completed === true).length ===
+      this.items.length
+    ) {
       this.completed = true;
     }
 
-    if (this.items.filter(i => i.completed === true).length !== this.items.length) {
+    if (
+      this.items.filter((i) => i.completed === true).length !==
+      this.items.length
+    ) {
       this.completed = false;
     }
   }
 
   setCompleted(completed: boolean): void {
-    this.items.forEach(item => item.completed = completed);
+    this.items.forEach((item) => (item.completed = completed));
     this.completed = completed;
   }
 }
@@ -40,7 +48,10 @@ export class ChecklistItem {
 
   itemUpdatedCallback;
 
-  constructor({ actionName, actionTodo, actor }: IChecklistItem, itemUpdatedCallback: () => void) {
+  constructor(
+    { actionName, actionTodo, actor }: IChecklistItem,
+    itemUpdatedCallback: () => void
+  ) {
     this.actionTodo = actionTodo;
     this.actionName = actionName;
     this.actor = actor;
@@ -49,7 +60,7 @@ export class ChecklistItem {
     makeAutoObservable(this);
   }
 
-  setCompleted(completed: boolean) {
+  setCompleted(completed: boolean): void {
     this.completed = completed;
     this.itemUpdatedCallback();
   }

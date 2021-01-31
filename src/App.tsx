@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import ChecklistOverview from './pages/ChecklistOverview';
 import Home from './pages/Home';
 
-
 export default function App() {
   return (
     <Router>
@@ -32,4 +31,3 @@ export default function App() {
     </Router>
   );
 }
-
