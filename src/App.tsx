@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
 import ChecklistOverview from './pages/ChecklistOverview';
-import Home from './pages/Home';
 
-export default function App() {
+export default function App(): JSX.Element {
   return (
     <Router>
       <div>
@@ -19,7 +18,7 @@ export default function App() {
         </nav>
         <Switch>
           <Route path="/home">
-            <Home />
+            <ChecklistOverview />
           </Route>
         </Switch>
         <Switch>
