@@ -6,6 +6,8 @@ import { IChecklist } from './types';
 
 export default class State {
   checklists: Checklist[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // runwaysData: any[];
   constructor(checklists: IChecklist[]) {
     this.checklists = checklists.map((s) => new Checklist(s));
     makeAutoObservable(this);

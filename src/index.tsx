@@ -6,11 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import AppCtx from './model/context';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AppCtx.Provider value={loadState()}>
-      <App />
-    </AppCtx.Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <AppCtx.Provider value={loadState()}>
+    <App />
+  </AppCtx.Provider>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

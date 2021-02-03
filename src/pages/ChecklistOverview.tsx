@@ -9,13 +9,13 @@ export default function ChecklistOverview(): JSX.Element {
   const match = useRouteMatch();
 
   return (
-    <>
+    <div>
       <NavBar />
       <Switch>
         <Route path={`${match.path}/:checklistId`}>
           <Checklist />
         </Route>
       </Switch>
-    </>
+    </div>
   );
 }
