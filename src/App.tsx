@@ -58,10 +58,10 @@ export default function App(): JSX.Element {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <TopMenuLink to="/">
+              <TopMenuLink to={`${process.env.PUBLIC_URL}/`}>
                 <MenuItem onClick={handleClose}>Home</MenuItem>
               </TopMenuLink>
-              <TopMenuLink to="/landing">
+              <TopMenuLink to={`${process.env.PUBLIC_URL}/landing`}>
                 <MenuItem onClick={handleClose}>Boeing 767 - Landing</MenuItem>
               </TopMenuLink>
             </Menu>
