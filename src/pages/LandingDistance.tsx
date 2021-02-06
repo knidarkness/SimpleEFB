@@ -81,7 +81,9 @@ export default function LandingDistancePage(): JSX.Element {
   const [runways, setRunways] = React.useState();
   React.useEffect(() => {
     (async function updateRunways() {
-      const runwaysRaw = await fetch('/runways.csv');
+      const runwaysRaw = await fetch(
+        `${process.env.PUBLIC_URL || ''}/runways.csv`
+      );
       const runwaysCSV = await runwaysRaw.text();
       const runwaysData = parseCSV(runwaysCSV, {
         columns: true,
