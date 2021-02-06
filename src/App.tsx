@@ -23,7 +23,6 @@ const Body = styled.div`
 
 const TopBar = styled.nav`
   flex-grow: 1;
-  width: 100vw;
 `;
 
 const TopMenuLink = styled(Link)`
