@@ -1,5 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  HashRouter,
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -43,7 +49,7 @@ export default function App(): JSX.Element {
   };
 
   return (
-    <Router>
+    <HashRouter basename="/">
       <CssBaseline />
       <TopBar>
         <AppBar position="static">
@@ -58,10 +64,10 @@ export default function App(): JSX.Element {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <TopMenuLink to={`${process.env.PUBLIC_URL}/`}>
+              <TopMenuLink to="/">
                 <MenuItem onClick={handleClose}>Home</MenuItem>
               </TopMenuLink>
-              <TopMenuLink to={`${process.env.PUBLIC_URL}/landing`}>
+              <TopMenuLink to="/landing">
                 <MenuItem onClick={handleClose}>Boeing 767 - Landing</MenuItem>
               </TopMenuLink>
             </Menu>
@@ -79,6 +85,6 @@ export default function App(): JSX.Element {
           </Route>
         </Switch>
       </Body>
-    </Router>
+    </HashRouter>
   );
 }

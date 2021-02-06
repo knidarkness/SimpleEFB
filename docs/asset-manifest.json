@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "https://knidarkness.github.io/SimpleEFB/static/js/main.10233edc.chunk.js",
-    "main.js.map": "https://knidarkness.github.io/SimpleEFB/static/js/main.10233edc.chunk.js.map",
+    "main.js": "https://knidarkness.github.io/SimpleEFB/static/js/main.b477287f.chunk.js",
+    "main.js.map": "https://knidarkness.github.io/SimpleEFB/static/js/main.b477287f.chunk.js.map",
     "runtime-main.js": "https://knidarkness.github.io/SimpleEFB/static/js/runtime-main.dac621ad.js",
     "runtime-main.js.map": "https://knidarkness.github.io/SimpleEFB/static/js/runtime-main.dac621ad.js.map",
-    "static/js/2.53112197.chunk.js": "https://knidarkness.github.io/SimpleEFB/static/js/2.53112197.chunk.js",
-    "static/js/2.53112197.chunk.js.map": "https://knidarkness.github.io/SimpleEFB/static/js/2.53112197.chunk.js.map",
+    "static/js/2.96aad7b7.chunk.js": "https://knidarkness.github.io/SimpleEFB/static/js/2.96aad7b7.chunk.js",
+    "static/js/2.96aad7b7.chunk.js.map": "https://knidarkness.github.io/SimpleEFB/static/js/2.96aad7b7.chunk.js.map",
     "static/js/3.411419d3.chunk.js": "https://knidarkness.github.io/SimpleEFB/static/js/3.411419d3.chunk.js",
     "static/js/3.411419d3.chunk.js.map": "https://knidarkness.github.io/SimpleEFB/static/js/3.411419d3.chunk.js.map",
     "index.html": "https://knidarkness.github.io/SimpleEFB/index.html",
-    "static/js/2.53112197.chunk.js.LICENSE.txt": "https://knidarkness.github.io/SimpleEFB/static/js/2.53112197.chunk.js.LICENSE.txt"
+    "static/js/2.96aad7b7.chunk.js.LICENSE.txt": "https://knidarkness.github.io/SimpleEFB/static/js/2.96aad7b7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.dac621ad.js",
-    "static/js/2.53112197.chunk.js",
-    "static/js/main.10233edc.chunk.js"
+    "static/js/2.96aad7b7.chunk.js",
+    "static/js/main.b477287f.chunk.js"
   ]
 }
