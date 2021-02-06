@@ -11,7 +11,7 @@ import {
 import parseCSV from 'csv-parse/lib/sync';
 
 import calculateLD from '../utils/landingDistance';
-import { getWinds } from '../utils';
+import { getISATemp, getWinds } from '../utils';
 import InputAdornment from '@material-ui/core/InputAdornment';
 
 const StyledFormControl = styled(FormControl)`
@@ -62,6 +62,7 @@ export default function LandingDistancePage(): JSX.Element {
   const [autobrakes, setAutobrakes] = React.useState('1');
   const [flaps, setFlaps] = React.useState(25);
   const [landingAlt, setLandingAlt] = React.useState<number | undefined>(0);
+  const [temperature, setTemperature] = React.useState<number | undefined>(0);
   const [rwySlope, setRwySlope] = React.useState<number | undefined>(0);
   const [runwayHeading, setRunwayHeading] = React.useState<number | undefined>(
     0
@@ -107,16 +108,17 @@ export default function LandingDistancePage(): JSX.Element {
     setWinds(winds);
 
     const tailWind = -1 * winds.headwind;
-
+    const landingAltitude = landingAlt || 0;
+    const actualTemperature = temperature || 0;
     const LDinput = {
       flaps,
       reversers,
-      landingAltitude: landingAlt || 0,
+      landingAltitude,
       approachSpeedAddition: vrefAdd,
       rwySlope: rwySlope || 0,
       tailwind: tailWind,
       landingWeight,
-      temperatureDeviation: 0,
+      temperatureDeviation: actualTemperature - getISATemp(landingAltitude),
       breakingAction: brakingAction,
       autobrakeSettings: autobrakes,
     };
@@ -230,6 +232,22 @@ export default function LandingDistancePage(): JSX.Element {
             }}
             onChange={(e) => {
               setLandingAlt(
+                e.target.value ? parseFloat(e.target.value) : undefined
+              );
+              setComputed(false);
+            }}
+          />
+          <StyledTextInput
+            variant="outlined"
+            label="Temperature (C)"
+            type="number"
+            size="small"
+            value={temperature}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">° C</InputAdornment>,
+            }}
+            onChange={(e) => {
+              setTemperature(
                 e.target.value ? parseFloat(e.target.value) : undefined
               );
               setComputed(false);
