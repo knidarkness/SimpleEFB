@@ -12,6 +12,7 @@ import parseCSV from 'csv-parse/lib/sync';
 
 import calculateLD from '../utils/landingDistance';
 import { getWinds } from '../utils';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const StyledFormControl = styled(FormControl)`
   display: block;
@@ -26,6 +27,7 @@ const StyledSelect = styled(Select)`
 const StyledTextInput = styled(TextField)`
   display: block;
   margin-top: 10px;
+  width: 210px;
 `;
 
 const CalculateButton = styled(Button)`
@@ -223,6 +225,9 @@ export default function LandingDistancePage(): JSX.Element {
             type="number"
             size="small"
             value={landingAlt}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">ft.</InputAdornment>,
+            }}
             onChange={(e) => {
               setLandingAlt(
                 e.target.value ? parseFloat(e.target.value) : undefined
@@ -236,6 +241,9 @@ export default function LandingDistancePage(): JSX.Element {
             type="number"
             size="small"
             value={runwayHeading}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">°</InputAdornment>,
+            }}
             onChange={(e) => {
               setRunwayHeading(
                 e.target.value ? parseInt(e.target.value) : undefined
@@ -249,6 +257,9 @@ export default function LandingDistancePage(): JSX.Element {
             type="number"
             size="small"
             value={windDirection}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">°</InputAdornment>,
+            }}
             onChange={(e) => {
               setWindDirection(
                 e.target.value ? parseFloat(e.target.value) : undefined
@@ -262,6 +273,9 @@ export default function LandingDistancePage(): JSX.Element {
             type="number"
             size="small"
             value={windSpeed}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">kts</InputAdornment>,
+            }}
             onChange={(e) => {
               setWindSpeed(
                 e.target.value ? parseFloat(e.target.value) : undefined
@@ -275,6 +289,11 @@ export default function LandingDistancePage(): JSX.Element {
             type="number"
             size="small"
             value={landingWeight}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">tons</InputAdornment>
+              ),
+            }}
             onChange={(e) => {
               setLandingWeight(
                 e.target.value ? parseFloat(e.target.value) : undefined
@@ -284,10 +303,14 @@ export default function LandingDistancePage(): JSX.Element {
           />
           <StyledTextInput
             variant="outlined"
-            label="Runway slope (%)"
+            label="Runway slope"
             type="number"
             size="small"
             value={rwySlope}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">%</InputAdornment>,
+            }}
+            aria-describedby="standard-weight-helper-text"
             onChange={(e) => {
               setRwySlope(
                 e.target.value ? parseFloat(e.target.value) : undefined

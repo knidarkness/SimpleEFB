@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  HashRouter,
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-} from 'react-router-dom';
+import { HashRouter, Switch, Route, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
