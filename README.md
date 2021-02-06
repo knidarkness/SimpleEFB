@@ -1,46 +1,21 @@
-# Getting Started with Create React App
+# SimpleEFB
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This is a tool which is intended for **simulator use only**. As of now, it can only provide landing distance calculation for Boeing 767-300, however in near future it will be extended with other aircraft types (Boeing 767-200, Boeing 777-200, Airbus A32X family and maybe more), live airport data load and others.
 
-In the project directory, you can run:
+Now it is in an extremely early state, but already can be used for some flight-simming.
 
-### `yarn start`
+## Roadmap
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+For now, my plan on next features is:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- [fix] add temperature correction for B767
+- [improvement] allow to enter ICAO airport identifier (e.g. KSEA) and then select the runway in this airport. That will automatically download the METAR & LDA, heading, etc. In this case you don't need to enter all this manually.
+- [new aircraft] Add capacity to calculate data for A321 & A321 Neo, as these 2 are my most popular planes to fly in X-Plane
 
-### `yarn test`
+## License
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+MIT License
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Copyright (c) 2021 Sergey Dubovyk
