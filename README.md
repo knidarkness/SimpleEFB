@@ -11,6 +11,7 @@ Now it is in an extremely early state, but already can be used for some flight-s
 For now, my plan on next features is:
 
 - [**done**][improvement] allow to enter ICAO airport identifier (e.g. KSEA) and then select the runway in this airport. That will automatically download the METAR & LDA, heading, etc. In this case you don't need to enter all this manually.
+- [WIP] imrove UI
 - [new aircraft] Add capacity to calculate data for A321 & A321 Neo, as these 2 are my most popular planes to fly in X-Plane
 
 ## License
