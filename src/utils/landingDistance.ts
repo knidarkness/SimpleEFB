@@ -1003,7 +1003,8 @@ function getWindAdjustment(input: landingDistanceInput): number {
         windAdjustments[input.flaps][input.breakingAction].tail[
           input.autobrakeSettings
         ]
-      : windAdjustments[input.flaps][input.breakingAction].head[
+      : windAdjustmentSteps *
+        windAdjustments[input.flaps][input.breakingAction].head[
           input.autobrakeSettings
         ];
   return windAdjustment;

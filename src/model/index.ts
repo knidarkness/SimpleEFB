@@ -1,20 +1,28 @@
 import { makeAutoObservable } from 'mobx';
 import { Checklist } from './checklist';
 import checklists from './checklists.json';
-import { IChecklist } from './types';
+import { Airport, IChecklist } from './types';
 // export * from './context';
 
 export default class State {
   checklists: Checklist[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // runwaysData: any[];
+  airports: Record<string, Airport>;
+  airportNames: string[] = [];
+
   constructor(checklists: IChecklist[]) {
     this.checklists = checklists.map((s) => new Checklist(s));
+    this.airports = {};
     makeAutoObservable(this);
   }
 
   getChecklistById(id: string): Checklist | undefined {
     return this.checklists.find((item) => item.id === id);
+  }
+
+  loadAirportsData(airportData: Record<string, Airport>): void {
+    this.airports = airportData;
+    this.airportNames = Object.keys(this.airports);
+    console.log(this.airportNames.length);
   }
 }
 

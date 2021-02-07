@@ -1,9 +1,10 @@
-import React from 'react';
-import { HashRouter, Switch, Route, Link } from 'react-router-dom';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import CssBaseline from '@material-ui/core/CssBaseline';
 
-import LandingDistancePage from './pages/LandingDistance';
+import { HashRouter, Switch, Route, Link } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import MenuIcon from '@material-ui/icons/Menu';
+
 import {
   AppBar,
   // Button,
@@ -13,8 +14,12 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+
 import Home from './pages/Home';
+import LandingDistancePage from './pages/LandingDistance';
+import AppCtx from './model/context';
+import State from './model';
+import { Airport } from './model/types';
 
 const Body = styled.div`
   width: 70%;
@@ -32,6 +37,7 @@ const TopMenuLink = styled(Link)`
 
 export default function App(): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const ctx: State = useContext(AppCtx);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,6 +46,18 @@ export default function App(): JSX.Element {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  React.useEffect(() => {
+    (async function updateRunways() {
+      const airportsRaw = await fetch(
+        `${process.env.PUBLIC_URL || ''}/airports.json`
+      );
+      const airportsData = await airportsRaw.json();
+
+      ctx.loadAirportsData(airportsData as Record<string, Airport>);
+      console.log('Loaded airport data.');
+    })();
+  }, []);
 
   return (
     <HashRouter basename="/">

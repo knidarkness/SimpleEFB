@@ -1,34 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@material-ui/core';
-import parseCSV from 'csv-parse/lib/sync';
+import { Button } from '@material-ui/core';
 
 import calculateLD from '../utils/landingDistance';
-import { getISATemp, getWinds } from '../utils';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import { getISATemp, getMETAR, getWinds } from '../utils';
+import { observer } from 'mobx-react-lite';
 
-const StyledFormControl = styled(FormControl)`
-  display: block;
-  margin: 10px;
-  min-width: 200px;
-`;
-
-const StyledSelect = styled(Select)`
-  min-width: 200px;
-`;
-
-const StyledTextInput = styled(TextField)`
-  display: block;
-  margin-top: 10px;
-  width: 210px;
-`;
+import AppCtx from './../model/context';
+import State from './../model';
+import MainTextInput from '../components/TextInput';
+import Dropdown from '../components/Dropdown';
+import AirportSelect from '../components/AirportSelect';
+import RunwaySelect from '../components/RunwaySelect';
+import LandingPerfResult from '../components/LandingPerfResult';
 
 const CalculateButton = styled(Button)`
   margin-top: 10px;
@@ -41,20 +25,13 @@ const LandingPage = styled.div`
   display: flex;
 `;
 
-const ComputedRowName = styled.h4`
-  display: inline-block;
-  margin: 5px;
-`;
-
-const Column = styled.div`
-  width: inherit;
-`;
-
 const InputColumn = styled.div`
   width: 400px;
 `;
 
-export default function LandingDistancePage(): JSX.Element {
+function LandingDistancePage(): JSX.Element {
+  const ctx: State = useContext(AppCtx);
+
   const [computed, setComputed] = React.useState(false);
   const [LDR, setLDR] = React.useState(0);
 
@@ -81,21 +58,8 @@ export default function LandingDistancePage(): JSX.Element {
     crosswind?: number;
   }>({});
 
-  const [runways, setRunways] = React.useState();
-  React.useEffect(() => {
-    (async function updateRunways() {
-      const runwaysRaw = await fetch(
-        `${process.env.PUBLIC_URL || ''}/runways.csv`
-      );
-      const runwaysCSV = await runwaysRaw.text();
-      const runwaysData = parseCSV(runwaysCSV, {
-        columns: true,
-        skip_empty_lines: true,
-      });
-      setRunways(runwaysData);
-      console.log('Loaded airport data.');
-    })();
-  }, []);
+  const [airport, setAirport] = React.useState<string>('');
+  const [runway, setRunway] = React.useState<string>('');
 
   const getLD = async () => {
     if (!landingWeight) return;
@@ -127,214 +91,144 @@ export default function LandingDistancePage(): JSX.Element {
     setLDR(ld);
   };
 
+  const getWeather = async (runway: string) => {
+    const metar = await getMETAR(airport);
+    const airportData = ctx.airports[airport];
+    setRunwayHeading(airportData.runways[runway]?.heading || 0);
+    setWindDirection(parseInt(metar.wind));
+    setWindSpeed(parseInt(metar.wind_vel));
+    setLandingAlt(airportData.runways[runway].elevationFt);
+    setTemperature(parseInt(metar.temp));
+  };
+
   return (
     <div>
       <h1 style={{ textAlign: 'center' }}>Landing distance</h1>
       <LandingPage>
         <InputColumn>
-          <StyledFormControl>
-            <InputLabel id="brakingAction-settings-label">
-              RWY Breaking Action
-            </InputLabel>
-            <StyledSelect
-              id="brakingAction-settings"
-              labelId="brakingAction-settings-label"
-              value={brakingAction}
-              onChange={(e) => {
-                setBrakingAction(e.target.value as string);
-                setComputed(false);
-              }}
-            >
-              <MenuItem value={'dry'}>Dry</MenuItem>
-              <MenuItem value={'good'}>Good</MenuItem>
-              <MenuItem value={'medium'}>Medium</MenuItem>
-              <MenuItem value={'poor'}>Poor</MenuItem>
-            </StyledSelect>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="autobrakes-settings-label">Autobrakes</InputLabel>
-            <StyledSelect
-              id="autobrakes-settings"
-              labelId="autobrakes-settings-label"
-              value={autobrakes}
-              onChange={(e) => {
-                setAutobrakes(e.target.value as string);
-                setComputed(false);
-              }}
-            >
-              <MenuItem value={'max'}>Max Manual</MenuItem>
-              <MenuItem value={'1'}>1</MenuItem>
-              <MenuItem value={'2'}>2</MenuItem>
-              <MenuItem value={'3'}>3</MenuItem>
-              <MenuItem value={'4'}>4</MenuItem>
-              <MenuItem value={'aMax'}>Autobrake Max</MenuItem>
-            </StyledSelect>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="flaps-settings-label">Flaps</InputLabel>
-            <StyledSelect
-              id="flaps-settings"
-              labelId="flaps-settings-label"
-              value={flaps}
-              onChange={(e) => {
-                setFlaps(e.target.value as number);
-                setComputed(false);
-              }}
-            >
-              <MenuItem value={25}>25</MenuItem>
-              <MenuItem value={30}>30</MenuItem>
-            </StyledSelect>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="reversers-settings-label">Reversers</InputLabel>
-            <StyledSelect
-              id="reversers-settings"
-              labelId="reversers-settings-label"
-              value={reversers}
-              onChange={(e) => {
-                setReversers(e.target.value as string);
-                setComputed(false);
-              }}
-            >
-              <MenuItem value={'both'}>Both</MenuItem>
-              <MenuItem value={'1 inop'}>1 Inop</MenuItem>
-              <MenuItem value={'2 inop'}>2 Inop</MenuItem>
-            </StyledSelect>
-          </StyledFormControl>
-          <StyledFormControl>
-            <InputLabel id="reversers-settings-label">
-              Approach speed
-            </InputLabel>
-            <StyledSelect
-              id="reversers-settings"
-              labelId="reversers-settings-label"
-              value={vrefAdd}
-              onChange={(e) => {
-                setVrefAdd(e.target.value as number);
-                setComputed(false);
-              }}
-            >
-              <MenuItem value={0}>VRef</MenuItem>
-              <MenuItem value={5}>VRef + 5kts</MenuItem>
-              <MenuItem value={10}>VRef + 10kts</MenuItem>
-              <MenuItem value={15}>VRef + 15kts</MenuItem>
-              <MenuItem value={20}>VRef + 20kts</MenuItem>
-            </StyledSelect>
-          </StyledFormControl>
-          <StyledTextInput
-            variant="outlined"
-            label="Landing Altitude"
-            type="number"
-            size="small"
+          <Dropdown
+            label="RWY Breaking Action"
+            value={brakingAction}
+            setValue={setBrakingAction}
+            setComputed={setComputed}
+            items={[
+              { title: 'Dry', value: 'dry' },
+              { title: 'Good', value: 'good' },
+              { title: 'Medium', value: 'medium' },
+              { title: 'Poor', value: 'poor' },
+            ]}
+          />
+          <Dropdown
+            label="Autobrakes"
+            value={autobrakes}
+            setValue={setAutobrakes}
+            setComputed={setComputed}
+            items={[
+              { title: 'Max Manual', value: 'max' },
+              { title: '1', value: '1' },
+              { title: '2', value: '2' },
+              { title: '3', value: '3' },
+              { title: '4', value: '4' },
+              { title: 'Autobrake Max', value: 'aMax' },
+            ]}
+          />
+          <Dropdown
+            label="Flaps"
+            value={flaps}
+            setValue={setFlaps}
+            setComputed={setComputed}
+            items={[
+              { title: '25', value: 25 },
+              { title: '30', value: 30 },
+            ]}
+          />
+          <Dropdown
+            label="Reversers"
+            value={reversers}
+            setValue={setReversers}
+            setComputed={setComputed}
+            items={[
+              { title: 'Both', value: 'both' },
+              { title: '1 inop', value: '1 inop' },
+              { title: '2 inop', value: '2 inop' },
+            ]}
+          />
+          <Dropdown
+            label="Approach speed"
+            value={vrefAdd}
+            setValue={setVrefAdd}
+            setComputed={setComputed}
+            items={[
+              { title: 'Vref', value: 0 },
+              { title: 'Vref + 5 kts', value: 5 },
+              { title: 'Vref + 10 kts', value: 10 },
+              { title: 'Vref + 15 kts', value: 15 },
+              { title: 'Vref + 20 kts', value: 20 },
+            ]}
+          />
+          <AirportSelect
+            label="Landing airport"
+            value={airport}
+            setValue={setAirport}
+            setComputed={setComputed}
+            setRunway={setRunway}
+          />
+          <RunwaySelect
+            label="Landing runway"
+            airport={airport}
+            runway={runway}
+            getWeather={getWeather}
+            setRunway={setRunway}
+            setComputed={setComputed}
+          />
+          <MainTextInput
+            setComputed={setComputed}
             value={landingAlt}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">ft.</InputAdornment>,
-            }}
-            onChange={(e) => {
-              setLandingAlt(
-                e.target.value ? parseFloat(e.target.value) : undefined
-              );
-              setComputed(false);
-            }}
+            setValue={setLandingAlt}
+            label="Landing Altitude"
+            endAdorment="ft."
           />
-          <StyledTextInput
-            variant="outlined"
-            label="Temperature (C)"
-            type="number"
-            size="small"
+          <MainTextInput
+            setComputed={setComputed}
             value={temperature}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">° C</InputAdornment>,
-            }}
-            onChange={(e) => {
-              setTemperature(
-                e.target.value ? parseFloat(e.target.value) : undefined
-              );
-              setComputed(false);
-            }}
+            setValue={setTemperature}
+            label="Temperature (C)"
+            endAdorment="° C"
           />
-          <StyledTextInput
-            variant="outlined"
-            label="Runway heading"
-            type="number"
-            size="small"
+          <MainTextInput
+            setComputed={setComputed}
             value={runwayHeading}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">°</InputAdornment>,
-            }}
-            onChange={(e) => {
-              setRunwayHeading(
-                e.target.value ? parseInt(e.target.value) : undefined
-              );
-              setComputed(false);
-            }}
+            setValue={setRunwayHeading}
+            label="Runway heading"
+            endAdorment="°"
           />
-          <StyledTextInput
-            variant="outlined"
-            label="Wind direction"
-            type="number"
-            size="small"
+          <MainTextInput
+            setComputed={setComputed}
             value={windDirection}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">°</InputAdornment>,
-            }}
-            onChange={(e) => {
-              setWindDirection(
-                e.target.value ? parseFloat(e.target.value) : undefined
-              );
-              setComputed(false);
-            }}
+            setValue={setWindDirection}
+            label="Wind direction"
+            endAdorment="°"
           />
-          <StyledTextInput
-            variant="outlined"
-            label="Wind speed"
-            type="number"
-            size="small"
+          <MainTextInput
+            setComputed={setComputed}
             value={windSpeed}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">kts</InputAdornment>,
-            }}
-            onChange={(e) => {
-              setWindSpeed(
-                e.target.value ? parseFloat(e.target.value) : undefined
-              );
-              setComputed(false);
-            }}
+            setValue={setWindSpeed}
+            label="Wind speed"
+            endAdorment="kts"
           />
-          <StyledTextInput
-            variant="outlined"
-            label="Landing weight"
-            type="number"
-            size="small"
+          <MainTextInput
+            setComputed={setComputed}
             value={landingWeight}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">tons</InputAdornment>
-              ),
-            }}
-            onChange={(e) => {
-              setLandingWeight(
-                e.target.value ? parseFloat(e.target.value) : undefined
-              );
-              setComputed(false);
-            }}
+            setValue={setLandingWeight}
+            label="Landing weight"
+            endAdorment="tones"
           />
-          <StyledTextInput
-            variant="outlined"
-            label="Runway slope"
-            type="number"
-            size="small"
+          <MainTextInput
+            setComputed={setComputed}
             value={rwySlope}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">%</InputAdornment>,
-            }}
-            aria-describedby="standard-weight-helper-text"
-            onChange={(e) => {
-              setRwySlope(
-                e.target.value ? parseFloat(e.target.value) : undefined
-              );
-              setComputed(false);
-            }}
+            setValue={setRwySlope}
+            label="Runway slope"
+            endAdorment="%"
           />
 
           <CalculateButton
@@ -345,31 +239,10 @@ export default function LandingDistancePage(): JSX.Element {
             Calculate
           </CalculateButton>
         </InputColumn>
-        <Column>
-          {computed ? (
-            <>
-              <div>
-                <ComputedRowName style={{ display: 'inline-block' }}>
-                  Landing distance required:
-                </ComputedRowName>
-                {` ${LDR} ft.`}
-              </div>
-              <div>
-                <ComputedRowName>
-                  {winds.headwind && winds?.headwind >= 0
-                    ? 'Headwind: '
-                    : 'Tailwind: '}
-                </ComputedRowName>
-                {` ${Math.abs(winds.headwind || 0).toFixed(0)} kts`}
-              </div>
-              <div>
-                <ComputedRowName>Crosswind: </ComputedRowName>
-                {` ${Math.abs(winds.crosswind || 0).toFixed(0)} kts`}
-              </div>
-            </>
-          ) : undefined}
-        </Column>
+        <LandingPerfResult computed={computed} LDR={LDR} winds={winds} />
       </LandingPage>
     </div>
   );
 }
+
+export default observer(LandingDistancePage);
