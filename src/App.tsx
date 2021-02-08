@@ -69,7 +69,6 @@ export default function App(): JSX.Element {
               <MenuIcon />
             </IconButton>
             <Menu
-              id="simple-menu"
               anchorEl={anchorEl}
               keepMounted
               open={Boolean(anchorEl)}

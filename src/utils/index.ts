@@ -20,10 +20,12 @@ export function getISATemp(altitude: number): number {
   return zeroMSLISA - 1.95 * (altitude / 1000);
 }
 
-export async function getMETAR(airportId: string): Promise<METAR> {
+export async function getMETAR(airportId: string): Promise<METAR | undefined> {
   const response = await fetch(
     `https://api.allorigins.win/get?url=https%3A%2F%2Fapi.aviationapi.com%2Fv1%2Fweather%2Fmetar%3Fapt%3D${airportId}`
   );
+  if (response.status !== 200) return undefined;
+
   const { contents } = await response.json();
   const contentsData = JSON.parse(contents);
   return contentsData[airportId];

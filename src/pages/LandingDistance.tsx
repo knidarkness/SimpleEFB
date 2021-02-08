@@ -94,7 +94,12 @@ function LandingDistancePage(): JSX.Element {
   const getWeather = async (runway: string) => {
     const metar = await getMETAR(airport);
     const airportData = ctx.airports[airport];
+
     setRunwayHeading(airportData.runways[runway]?.heading || 0);
+    if (!metar) {
+      alert('Faild to get the METAR, input data manually.');
+      return;
+    }
     setWindDirection(parseInt(metar.wind));
     setWindSpeed(parseInt(metar.wind_vel));
     setLandingAlt(airportData.runways[runway].elevationFt);

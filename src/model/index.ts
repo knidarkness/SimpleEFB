@@ -1,13 +1,21 @@
 import { makeAutoObservable } from 'mobx';
 import { Checklist } from './checklist';
 import checklists from './checklists.json';
-import { Airport, IChecklist } from './types';
+import { Airport, Runway, IChecklist, METAR } from './types';
 // export * from './context';
+
+class ActiveAirport {
+  id: string | undefined;
+  runways: Record<string, Runway> | undefined;
+  selectedRunway: string | undefined;
+  weather: METAR | undefined;
+}
 
 export default class State {
   checklists: Checklist[];
   airports: Record<string, Airport>;
   airportNames: string[] = [];
+  currentDestination?: ActiveAirport;
 
   constructor(checklists: IChecklist[]) {
     this.checklists = checklists.map((s) => new Checklist(s));
