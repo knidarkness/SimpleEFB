@@ -1,14 +1,33 @@
 import { METAR } from '../model/types';
 
-export function getWinds(
-  rwyHeading: number,
-  windDirection: number,
-  windSpeed: number
-): {
-  headwind: number;
-  crosswind: number;
-} {
-  const angleDifference = Math.abs(rwyHeading - windDirection);
+export function getWinds(location: {
+  runwayHeading?: number;
+  windDirection?: number;
+  windSpeed?: number;
+}):
+  | {
+      headwind: number;
+      crosswind: number;
+    }
+  | undefined {
+  const {
+    runwayHeading,
+    windDirection,
+    windSpeed,
+  }: {
+    runwayHeading?: number;
+    windDirection?: number;
+    windSpeed?: number;
+  } = location;
+
+  if (
+    runwayHeading === undefined ||
+    windDirection === undefined ||
+    windSpeed === undefined
+  )
+    return undefined;
+
+  const angleDifference = Math.abs(runwayHeading - windDirection);
   return {
     headwind: windSpeed * Math.cos((angleDifference * Math.PI) / 180),
     crosswind: windSpeed * Math.sin((angleDifference * Math.PI) / 180),

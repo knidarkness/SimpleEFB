@@ -1,4 +1,6 @@
 import { InputAdornment, TextField } from '@material-ui/core';
+import { runInAction } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -8,38 +10,43 @@ const StyledTextInput = styled(TextField)`
   width: 210px;
 `;
 
-interface TextInputProps {
-  value: string | number | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setValue: (newValue: any | undefined) => void;
-  setComputed: (boolean) => void;
+export interface TextInputProps {
+  fieldName: string;
+  expectedType: 'integer' | 'float' | 'string';
   endAdorment: string;
   label: string;
+  value: any;
+  onChange: (
+    e: React.ChangeEvent<{
+      name?: string | undefined;
+      value: unknown;
+    }>,
+    props: TextInputProps
+  ) => void;
 }
 
-export default function MainTextInput({
-  value,
-  setValue,
-  setComputed,
-  endAdorment,
-  label,
-}: TextInputProps): JSX.Element {
+const TextInput = observer(function TextInput(
+  props: TextInputProps
+): JSX.Element {
+  const { endAdorment, label, expectedType, value, onChange } = props;
+  console.log(label, value);
   return (
     <StyledTextInput
       variant="outlined"
       label={label}
-      type={typeof value === 'number' ? 'number' : 'string'}
+      type={expectedType === 'string' ? 'string' : 'number'}
       size="small"
-      value={value}
+      value={value || (value === 0 ? 0 : '')}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">{endAdorment}</InputAdornment>
         ),
       }}
       onChange={(e) => {
-        setValue(e.target.value ? parseFloat(e.target.value) : undefined);
-        setComputed(false);
+        onChange(e, props);
       }}
     />
   );
-}
+});
+
+export default TextInput;

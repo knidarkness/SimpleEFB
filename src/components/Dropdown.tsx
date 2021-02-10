@@ -12,33 +12,33 @@ const StyledSelect = styled(Select)`
   min-width: 200px;
 `;
 
-interface DropdownProps {
+export interface DropdownProps {
   label: string;
-  value: string | number | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setValue: (newValue: any | undefined) => void;
-  setComputed: (boolean) => void;
+  fieldName: string;
+  expectedType: 'string' | 'integer';
   items: {
     title: string;
     value: string | number;
   }[];
+  value: any;
+  onChange: (
+    e: React.ChangeEvent<{
+      name?: string | undefined;
+      value: unknown;
+    }>,
+    props: DropdownProps
+  ) => void;
 }
 
-export default function Dropdown({
-  label,
-  value,
-  items,
-  setValue,
-  setComputed,
-}: DropdownProps): JSX.Element {
+const Dropdown = (props: DropdownProps): JSX.Element => {
+  const { label, fieldName, items, value, onChange } = props;
   return (
     <StyledFormControl>
       <InputLabel>{label}</InputLabel>
       <StyledSelect
-        value={value}
+        value={value || ''}
         onChange={(e) => {
-          setValue(e.target.value);
-          setComputed(false);
+          onChange(e, props);
         }}
       >
         {items.map((item) => (
@@ -49,4 +49,6 @@ export default function Dropdown({
       </StyledSelect>
     </StyledFormControl>
   );
-}
+};
+
+export default Dropdown;
